@@ -2,33 +2,49 @@
 
 A Redis-compatible server implementation in C++ built while studying systems and network programming.
 
-The project is a learning implementation based on *Make Your Own Redis* and focuses on understanding TCP communication, protocol parsing, and the internal architecture of an in-memory data store.
+This is a learning implementation based on *Build Your Own Redis with C/C++* and focuses on understanding socket programming, network protocols, concurrent I/O, and the internal architecture of an in-memory key-value server.
 
-## Current Progress
+## Roadmap
 
-- [x] TCP server using sockets
-- [x] TCP client
-- [ ] Redis Serialization Protocol (RESP) parser
-- [ ] Command parsing and execution
-- [ ] In-memory key-value storage
+### Part 1 — Redis from 0 to 1
 
-## What I'm Learning
+- [x] Socket programming
+- [x] TCP server and client
+- [ ] Binary request-response protocol and message framing
+- [ ] Concurrent I/O models
+- [ ] Event loop
+- [ ] Key-value server
 
-- TCP client-server communication
-- Socket programming in C++
-- Network protocol parsing
-- Redis Serialization Protocol (RESP)
-- In-memory data store architecture
+### Part 2 — Advanced Topics
+
+- [ ] Hashtable implementation
+- [ ] Data serialization
+- [ ] Balanced binary tree
+- [ ] Sorted set
+- [ ] Timers and timeouts
+- [ ] Cache expiration with TTL
+- [ ] Thread pool
+
+## Current Focus
+
+Currently implementing a length-prefixed binary request-response protocol to frame messages over a TCP byte stream.
+
+The protocol uses a 4-byte length prefix followed by a variable-length payload. The implementation also handles partial socket reads and writes rather than assuming a single `read()` or `write()` call transfers an entire message.
 
 ## Project Structure
 
-- `redis_server.cpp` — TCP server implementation
+- `redis_server.cpp` — TCP server and request handling
 - `redis_client.cpp` — TCP client implementation
 
-## Status
+## Learning Goals
 
-Currently working on the RESP parser.
+- TCP socket programming in C++
+- Message framing over byte streams
+- Handling partial reads and writes
+- Network protocol design and parsing
+- Concurrent I/O and event loops
+- In-memory data structures and key-value storage
 
 ## Reference
 
-This project follows the learning material in *Make Your Own Redis* and is being implemented as a study of systems and network programming.
+This project follows *Build Your Own Redis with C/C++* from build-your-own.org as a guided systems programming study.
