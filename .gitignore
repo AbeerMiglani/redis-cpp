@@ -1,0 +1,18 @@
+# macOS
+.DS_Store
+
+# Zed
+.zed/
+
+# C/C++ build artifacts
+*.o
+*.obj
+*.a
+*.so
+*.dylib
+*.out
+*.dSYM/
+
+# Local binaries
+client
+server
