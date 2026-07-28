@@ -66,9 +66,6 @@ int main (void)
         }
 
         close(conn_fd);
-
-        do_something(conn_fd);
-        close(conn_fd);
         return 0;
     }
 }
