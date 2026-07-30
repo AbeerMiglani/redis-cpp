@@ -11,7 +11,7 @@ This is a learning implementation based on *Build Your Own Redis with C/C++* and
 - [x] Socket programming
 - [x] TCP server and client
 - [x] Binary request-response protocol and message framing
-- [ ] Concurrent I/O models
+- [x] Concurrent I/O models
 - [ ] Event loop
 - [ ] Key-value server
 
