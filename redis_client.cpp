@@ -31,7 +31,22 @@ int main()
         return 1;
     }
 
-    char msg[] = "Hello";
+    int32_t err = query(fd, "hello1");
+    if (err)
+    {
+        goto L_DONE;
+    }
+
+    err = query(fd, "hello2");
+    if (err)
+    {
+        goto L_DONE;
+    }
+
+L_DONE:
+    close(fd);
+    return 0;
+    /* char msg[] = "Hello";
     write(fd, msg, strlen(msg));
 
     char rbuf[64];
@@ -42,7 +57,7 @@ int main()
         return 1;
     }
 
-    std::cout << "Server says: " << rbuf << std::endl;
+    std::cout << "Server says: " << rbuf << std::endl; */
 
     close(fd);
     return 0;
