@@ -46,7 +46,7 @@ int main()
 L_DONE:
     close(fd);
     return 0;
-    /* char msg[] = "Hello";
+    /* char msg[] = "Hello"; // Single Message
     write(fd, msg, strlen(msg));
 
     char rbuf[64];
