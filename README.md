@@ -36,6 +36,48 @@ The protocol uses a 4-byte length prefix followed by a variable-length payload. 
 - `redis_server.cpp` — TCP server and request handling
 - `redis_client.cpp` — TCP client implementation
 
+## Rough Outline
+
+```
+SERVER (one process)                         CLIENT (one process)
+────────────────────                         ────────────────────
+socket() / bind() / listen()
+     │
+     ▼
+accept()  ◄──── blocks, waiting ───────────  socket()
+     │                                             │
+     │                                        connect()
+     │◄─────────── TCP connection ────────────────┘
+     │  (accept returns connfd)                    │
+     │                                             │
+┌────▼── inner loop ──────┐              ┌─────────▼── query("hello1") ──────┐
+│ one_request(connfd):    │              │ build [len|"hello1"]              │
+│                         │   4B len +   │ write_all(fd, ...) ──────────────►│ (bytes travel over socket)
+│ read_full(rbuf, 4)  ◄───┼── payload ───┤                                   │
+│ memcpy → len            │              │                                   │
+│ read_full(&rbuf[4],len) │              │                                   │
+│ printf "client says:    │              │                                   │
+│        hello1"          │              │                                   │
+│                         │   4B len +   │ read_full(rbuf, 4)  ◄─────────────┤
+│ build [len|"world"]     │── payload ──►│ memcpy → len                      │
+│ write_all(connfd,...) ──┼──────────────┤ read_full(&rbuf[4], len)          │
+│ return 0                │              │ printf "server says: world"       │
+└────┬────────────────────┘              └───────────────────────────────────┘
+     │  loops back                               │  query() returns 0
+     │                                           ▼
+┌────▼── one_request again ┐              ┌── query("hello2") ── (same round-trip) ──┐
+│ ... "client says:hello2" │◄────────────►│ ... "server says: world"                 │
+│ replies "world" again    │              └──────────────────────┬───────────────────┘
+└────┬─────────────────────┘                                     │
+     │                                                    close(fd)  ◄── goto L_DONE
+     │  next read_full gets 0 bytes                              │
+     ▼                                                    (client exits)
+read_full returns -1
+one_request returns err
+inner loop breaks → prints "EOF"
+close(connfd); accept() again
+```
+
 ## Learning Goals
 
 - TCP socket programming in C++
