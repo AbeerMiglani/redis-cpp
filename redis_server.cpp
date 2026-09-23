@@ -1,4 +1,6 @@
 #include <cassert>
+#include <cerrno>
+#include <cstring>
 #include <cstddef>
 #include <iostream>
 #include <unistd.h>
